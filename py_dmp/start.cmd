@@ -1,0 +1,1 @@
+python %~dp0\analyze.py > %~dp0\log

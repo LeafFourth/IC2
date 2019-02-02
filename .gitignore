@@ -1,0 +1,10 @@
+app/Debug/
+build/
+Debug/
+devices/GeneratedFiles/
+test/Debug/
+.vs/
+*.vcxproj.user
+*.sdf
+*.opensdf
+*.suo
