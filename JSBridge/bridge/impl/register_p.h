@@ -282,6 +282,16 @@ struct OtherArgsType<BindTypePack<PT...>, BindTypePack<std::_Ph<T11>, T12...>, B
 	public OtherArgsType<BindTypePack<PT..., T21>, BindTypePack<T12...>, BindTypePack<T22...>> {
 };
 
+template <class ...PT, int T11, class ...T12, class T21, class ...T22>
+struct OtherArgsType<BindTypePack<PT...>, BindTypePack<std::_Ph<T11>&&, T12...>, BindTypePack<T21, T22...>> :
+    public OtherArgsType<BindTypePack<PT..., T21>, BindTypePack<T12...>, BindTypePack<T22...>>{
+};
+
+template <class ...PT, int T11, class ...T12, class T21, class ...T22>
+struct OtherArgsType<BindTypePack<PT...>, BindTypePack<std::_Ph<T11>&, T12...>, BindTypePack<T21, T22...>> :
+    public OtherArgsType<BindTypePack<PT..., T21>, BindTypePack<T12...>, BindTypePack<T22...>>{
+};
+
 //template <class ...T22>
 //struct OtherArgsType<BindTypePack<>, BindTypePack<T22...>> {
 //	typedef BindTypePack<T22...> pack;
