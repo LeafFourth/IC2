@@ -6,6 +6,8 @@
 #include <type_traits>
 #include <vector>
 
+#include "json/JsonObject.h"
+
 struct MethodArg {
     MethodArg() : data(nullptr) {}
 
@@ -21,7 +23,7 @@ struct MethodArgImpl : public MethodArg {
     MethodArgImpl(const T& m) {
         (T*&)data = new T(m);
     }
-    MethodArgImpl(const T&& m) {
+    MethodArgImpl(T&& m) {
         (T*&)data = new T(std::move(m));
     }
 
@@ -81,6 +83,7 @@ TYPE_CAST(std::string, "string")
 TYPE_CAST(int, "int")
 TYPE_CAST(bool, "bool")
 TYPE_CAST(double, "double")
+TYPE_CAST(JsonObject, "object")
 
 
 

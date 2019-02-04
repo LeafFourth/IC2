@@ -42,6 +42,9 @@ static std::vector<MethodArg*> MakeCallArgs(const std::string &callTypes, const 
         else if (it == "bool") {
             ret.push_back(new MethodArgImpl<bool>(dataObj[format.str()].toBool()));
         }
+        else if (it == "object") {
+          ret.push_back(new MethodArgImpl<JsonObject>(dataObj[format.str()]));
+        }
         else {
             assert(false);
         }
@@ -107,6 +110,9 @@ bool JSParse(const std::string &data, JsCallMeta &meta)
         }
         else if (arg.isBool()) {
             types.append("bool").append(";");
+        }
+        else if (arg.isObject()) {
+          types.append("object").append(";");
         }
         else {
             std::cout << "unsupport type" << std::endl;

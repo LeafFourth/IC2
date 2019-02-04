@@ -177,6 +177,11 @@ static void BindF3(int a, int b)
 
 }
 
+static void BindF4(int a, const JsonObject &obj)
+{
+
+}
+
 void TestBind()
 {
 
@@ -187,6 +192,7 @@ void TestBind()
 	REGISTER_JS_CALL(BindF, (int*)&a);
 	//REGISTER_JS_CALL(BindF2, (int*)&a);
 	REGISTER_JS_CALL(BindF2, a, std::placeholders::_1);
+  REGISTER_JS_CALL(BindF4, a, std::placeholders::_1);
 
 	//auto ff22 = std::bind(BindF2, a, std::placeholders::_1);
 	//ff22(std::string("123"));
@@ -207,6 +213,34 @@ void TestBind()
 
 		JSInvoke(jsonStr);
 	}
+
+  {
+    const std::string jsonStr(
+      R"({
+				  "call":"BindF4",
+				  "data": {
+				  "argNum": 1,
+				  "arg0": "true"
+				  }
+			  })");
+
+
+    JSInvoke(jsonStr);
+  }
+
+  {
+    const std::string jsonStr(
+      R"({
+				  "call":"BindF4",
+				  "data": {
+				  "argNum": 1,
+          "arg0": {}
+				  }
+			  })");
+
+
+    JSInvoke(jsonStr);
+  }
 }
 
 int _tmain(int argc, _TCHAR* argv[])
