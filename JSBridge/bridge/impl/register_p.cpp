@@ -115,6 +115,7 @@ bool JSParse(const std::string &data, JsCallMeta &meta)
           types.append("object").append(";");
         }
         else {
+            assert(false);  //前面检测参数兼容时应该已经排除掉了类型不支持的情况，不应该到这里！！！
             std::cout << "unsupport type" << std::endl;
             error = true;
             break;;
