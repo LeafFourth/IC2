@@ -8,3 +8,4 @@ test/Debug/
 *.sdf
 *.opensdf
 *.suo
+GeneratedFiles/
