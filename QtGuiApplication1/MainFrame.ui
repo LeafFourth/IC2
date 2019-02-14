@@ -13,7 +13,14 @@
   <property name="windowTitle">
    <string>MainFrame</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QPushButton" name="testButton">
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QWebEngineView" name="webView" native="true"/>
    </item>

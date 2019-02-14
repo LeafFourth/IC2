@@ -12,6 +12,9 @@ public:
 
     void SetupoJSChannel();
 
+private slots:
+    void onTestButtonClick();
+
 private:
     Ui::MainFrameClass ui;
 };

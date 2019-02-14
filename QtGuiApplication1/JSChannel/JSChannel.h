@@ -10,10 +10,10 @@ public:
     JSChannel(QObject *parent);
 
 signals:
-    void CallJS(const QString &method, const QString &argsJson);
+    void callJS(const QString &method, const QString &argsJson);
 
 public slots:
-    void CallNative(const QString &json);
+    void callNative(const QString &json);
 };
 
 #endif //JS_CHANNEL_H

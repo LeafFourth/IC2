@@ -1,0 +1,26 @@
+<html>
+  <head><title>index</title></head>
+  
+  
+  <script src="./qwebchannel.js"></script>
+  <body>
+    <p>hello</p>
+    <button type="button" onclick="window.channel_.callNative('msg')">click me!</button>
+    
+    
+    <script>
+      window.onload = function() {
+        console.log("init channel");
+        new QWebChannel(qt.webChannelTransport, function(channel) {
+                window.channel_ = channel.objects.JSChannel;
+                window.channel_.callJS.connect(OnCall);
+        })
+      };
+      
+      function OnCall(json)
+      {
+        alert(json);
+      }
+    </script>
+  </body>
+</html>
