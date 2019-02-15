@@ -26,7 +26,6 @@ void MainFrame::SetupoJSChannel()
     channel->registerObject("JSChannel", js_api);
     ui.webView->page()->setWebChannel(channel);
 
-
     //ui.webView->setUrl(QString("https://www.baidu.com"));
     ui.webView->setUrl(QString("E:/code/IC2/QtGuiApplication1/Resources/js/index.html"));
 }
