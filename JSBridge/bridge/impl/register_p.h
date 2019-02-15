@@ -1,6 +1,7 @@
 #ifndef REGISTER_P_H
 #define REGISTER_P_H
 
+#include <assert.h>
 #include <functional>
 #include <string>
 #include <type_traits>
