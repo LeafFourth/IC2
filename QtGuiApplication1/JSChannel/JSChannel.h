@@ -12,6 +12,11 @@ public:
 signals:
     void callJS(const QString &method, const QString &argsJson);
 
+public:
+    void init();
+
+    static void TestBind(JSChannel *self, const std::string &msg);
+
 public slots:
     void callNative(const QString &json);
 };
