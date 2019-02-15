@@ -107,21 +107,7 @@ JsonObject JsonObject::operator[](const std::string &key)
         return JsonObject();
     }
 
-    std::vector<std::string> strs;
-
-    const char c = '.';
-    size_t off = 0;
-    size_t pos = 0;
-    //不加值验证(如存在连续的. 或者开始就是一个.)
-    while (std::string::npos != (pos = key.find(c, off))) {
-        strs.push_back(key.substr(off, pos - off));
-        off = pos + 1;
-    }
-
-    if (off < key.size()) {
-        strs.push_back(key.substr(off));
-    }
-
+    std::vector<std::string> strs = parseKey(key);
 
     cJSON *node = json_;
     for (auto it: strs) {
@@ -140,13 +126,18 @@ JsonObject JsonObject::operator[](const std::string &key)
     return JsonObject();
 }
 
+bool JsonObject::isEmpty() const
+{
+    return json_ == nullptr || cJSON_IsNull(json_);
+}
+
 bool JsonObject::isObject() const
 {
     if (!json_) {
         return false;
     }
 
-    return (bool)cJSON_IsObject(json_);
+    return cJSON_IsObject(json_) != 0;
 }
 
 bool JsonObject::isArray() const
@@ -155,7 +146,7 @@ bool JsonObject::isArray() const
         return false;
     }
 
-    return (bool)cJSON_IsArray(json_);
+    return cJSON_IsArray(json_) != 0;
 }
 
 bool JsonObject::isInt() const
@@ -163,7 +154,7 @@ bool JsonObject::isInt() const
     if (!json_) {
         return false;
     }
-    return (bool)cJSON_IsNumber(json_);
+    return cJSON_IsNumber(json_) != 0;
 }
 
 bool JsonObject::isDouble() const
@@ -172,7 +163,7 @@ bool JsonObject::isDouble() const
         return false;
     }
 
-    return (bool)cJSON_IsNumber(json_);
+    return cJSON_IsNumber(json_) != 0;
 }
 
 bool JsonObject::isString() const
@@ -181,7 +172,7 @@ bool JsonObject::isString() const
         return false;
     }
 
-    return (bool)cJSON_IsString(json_);
+    return cJSON_IsString(json_) != 0;
 }
 
 bool JsonObject::isBool() const
@@ -190,7 +181,7 @@ bool JsonObject::isBool() const
         return false;
     }
 
-    return (bool)cJSON_IsBool(json_);
+    return cJSON_IsBool(json_) != 0;
 }
 
 std::string JsonObject::toString() const
@@ -226,7 +217,7 @@ bool JsonObject::toBool() const
         return false;
     }
 
-    return (bool)json_->valueint;
+    return json_->valueint != 0;
 }
 
 JsonArray JsonObject::toArray() const
@@ -252,6 +243,99 @@ JsonArray JsonObject::transferToArray()
     return JsonArray(mid);
 }
 
+void JsonObject::insert(const std::string &key, int val)
+{
+    std::vector<std::string> paths = parseKey(key);
+    cJSON *parent = getInsertNode(paths);
+    
+    if (!parent) {
+        return;
+    }
+
+    cJSON_AddNumberToObject(parent, paths[paths.size() - 1].c_str(), val);
+}
+
+void JsonObject::insert(const std::string &key, double val)
+{
+    std::vector<std::string> paths = parseKey(key);
+    cJSON *parent = getInsertNode(paths);
+
+
+    if (!parent) {
+        return;
+    }
+
+    cJSON_AddNumberToObject(parent, paths[paths.size() - 1].c_str(), val);
+}
+
+void JsonObject::insert(const std::string &key, bool val)
+{
+    std::vector<std::string> paths = parseKey(key);
+    cJSON *parent = getInsertNode(paths);
+
+
+    if (!parent) {
+        return;
+    }
+    cJSON_AddBoolToObject(parent, paths[paths.size() - 1].c_str(), cJSON_bool(val));
+}
+
+void JsonObject::insert(const std::string &key, const std::string &val)
+{
+    std::vector<std::string> paths = parseKey(key);
+    cJSON *parent = getInsertNode(paths);
+
+
+    if (!parent) {
+        return;
+    }
+    cJSON_AddStringToObject(parent, paths[paths.size() - 1].c_str(), val.c_str());
+}
+
+void JsonObject::insert(const std::string &key, const JsonArray &val)
+{
+    std::vector<std::string> paths = parseKey(key);
+    cJSON *parent = getInsertNode(paths);
+
+    if (!parent) {
+        return;
+    }
+
+    if (val.getSize() == 0) {
+        cJSON_AddArrayToObject(parent, paths[paths.size() - 1].c_str());
+
+        return;
+    }
+
+    JsonObject obj = val.toObject();
+    cJSON_AddItemToObject(parent, paths[paths.size() - 1].c_str(), obj.take());
+}
+
+void JsonObject::insert(const std::string &key, const JsonObject &val)
+{
+    std::vector<std::string> paths = parseKey(key);
+    cJSON *parent = getInsertNode(paths);
+
+    if (!parent) {
+        return;
+    }
+
+    if (val.isEmpty()) {
+        cJSON_AddObjectToObject(parent, paths[paths.size() - 1].c_str());
+
+        return;
+    }
+
+    cJSON_AddItemToObject(parent, paths[paths.size() - 1].c_str(), cJSON_Duplicate(val.json_, cJSON_bool(true)));
+}
+
+cJSON *JsonObject::take()
+{
+    cJSON *ret = json_;
+    json_ = nullptr;
+    return ret;
+}
+
 void JsonObject::clean()
 {
     if (json_) {
@@ -260,10 +344,112 @@ void JsonObject::clean()
     }
 }
 
+void JsonObject::initOnNull()
+{
+    if (!json_) {
+        json_ = cJSON_CreateObject();
+    }
+}
+
+cJSON *JsonObject::getInsertNode(const std::vector<std::string> &paths)
+{
+    if (paths.size() == 0) {
+        return nullptr;
+    }
+
+    initOnNull();
+
+    if ((paths.size() < 2)) {
+        return json_;
+    }
+
+    if (!isEmpty() && !isObject()) {
+        return nullptr;
+    }
+
+    size_t pathsSize = paths.size();
+    cJSON *sub = nullptr;
+    cJSON *parent = json_;
+    cJSON *insertNode = nullptr;
+    const char* insertKey = nullptr;
+    bool err = false;
+    for (size_t i = 0; i < pathsSize - 1; ++i) {
+        if (sub) {
+            cJSON *newSub = cJSON_CreateObject();
+            cJSON_AddItemToObject(parent, paths[i].c_str(), newSub);
+            parent = newSub;
+            continue;
+        }
+
+        cJSON *node = cJSON_GetObjectItem(parent, paths[i].c_str());
+
+        if (node) {
+            if (!cJSON_IsObject(node)) {
+                err = true;
+                break;
+            }
+
+            parent = node;
+            
+            continue;
+        }
+
+        sub = cJSON_CreateObject();
+        insertKey = paths[i].c_str();
+        insertNode = parent;
+        parent = sub;
+    }
+
+    if (err) {
+        if (sub) {
+            cJSON_free(sub);
+            sub = nullptr;
+        }
+
+        return nullptr;
+    }
+    
+    if (sub) {
+        cJSON_AddItemToObject(insertNode, insertKey, sub);
+    }
+
+    return parent;
+}
+
+//static
+std::vector<std::string> JsonObject::parseKey(const std::string &key)
+{
+    std::vector<std::string> strs;
+
+    const char c = '.';
+    size_t off = 0;
+    size_t pos = 0;
+    //不加值验证(如存在连续的. 或者开始就是一个.)
+    while (std::string::npos != (pos = key.find(c, off))) {
+        strs.push_back(key.substr(off, pos - off));
+        off = pos + 1;
+    }
+
+    if (off < key.size()) {
+        strs.push_back(key.substr(off));
+    }
+
+    return std::move(strs);
+}
+
 
 JsonArray::JsonArray()
 {
     json_ = nullptr;
+}
+
+JsonArray::JsonArray(const std::string &array)
+{
+    json_ = cJSON_Parse(array.c_str());
+    if (!cJSON_IsArray(json_)) {
+        cJSON_free(json_);
+        json_ = nullptr;
+    }
 }
 
 JsonArray::JsonArray(cJSON *json)
@@ -288,7 +474,7 @@ std::string JsonArray::toJson() const
     return std::move(ret);
 }
 
-int JsonArray::getSize()
+int JsonArray::getSize() const
 {
     if (!json_) {
         return 0;
@@ -325,6 +511,16 @@ JsonObject JsonArray::toObject() const
 
     cJSON *copy = cJSON_Duplicate(json_, true);
     return JsonObject(copy);
+}
+
+void JsonArray::insert(const std::string &key, const JsonObject &item)
+{
+    if (item.isEmpty()) {
+        return;
+    }
+
+    JsonObject tmp = item;
+    cJSON_AddItemToArray(json_, tmp.take());
 }
 
 JsonObject JsonArray::transferToObject()

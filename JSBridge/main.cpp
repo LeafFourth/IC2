@@ -243,10 +243,37 @@ void TestBind()
   }
 }
 
+
+
+
+
+/*
+ * test native calling js
+ */
+void TestCallJS()
+{
+    std::string json1 = NativeInvokeStr("fun");
+    std::cout << json1 << std::endl;
+
+    std::string json2 = NativeInvokeStr("fun", 1);
+    std::cout << json1 << std::endl;
+
+    std::string json3 = NativeInvokeStr("fun", JsonObject::Parse("{\"a\": 1}"));
+    std::cout << json3 << std::endl;
+
+    std::string json4 = NativeInvokeStr("fun", 1, JsonObject::Parse("{\"a\": 1}"));
+    std::cout << json4 << std::endl;
+
+}
+
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
-	TestJSCall();
-	TestBind();
+	//TestJSCall();
+	//TestBind();
+
+    //TestCallJS();
     getchar();
 
     return 0;

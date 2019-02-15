@@ -6,6 +6,14 @@
 #include <vector>
 
 #include "impl/register_p.h"
+//
+//{
+//    "call":"BindF4",
+//        "data" : {
+//        "argNum": 1,
+//            "arg0" : "true"
+//    }
+//}
 
 template <class FType, class ...T>
 void JSRegisterCall(const std::string &tag, FType f, T&& ...args)
@@ -20,6 +28,19 @@ void JSRegisterCall(const std::string &tag, FType f, T&& ...args)
 void JSUnregisterCall(const std::string &tag);
 
 bool JSInvoke(const std::string &data);
+
+
+template <class ...Types>
+std::string NativeInvokeStr(const std::string &method, Types&& ...args)
+{
+    JsonObject callJson;
+    JsonObject dataJson;
+    callJson.insert("call", method);
+
+    NativeInvokehelper(dataJson, 0, std::forward<Types>(args)...);
+    callJson.insert("data", dataJson);
+    return std::move(callJson.toJson());
+}
 
 
 #endif // REGISTER_H

@@ -2,6 +2,7 @@
 #define JSONOBJECT_H
 
 #include <string>
+#include <vector>
 
 struct cJSON;
 
@@ -23,18 +24,18 @@ public:
     JsonObject();
     ~JsonObject();
 
-    JsonObject(cJSON *j);
-    JsonObject(int value);
-    JsonObject(double value);
+    explicit JsonObject(cJSON *j);
+    explicit JsonObject(int value);
+    explicit JsonObject(double value);
     JsonObject(const std::string &value);
-    JsonObject(bool value);
+    explicit JsonObject(bool value);
 
     JsonObject(const JsonObject &obj);
     JsonObject(JsonObject &&obj);
 
 
-    JsonObject(const JsonArray &obj);
-    JsonObject(JsonArray &&obj);
+    explicit JsonObject(const JsonArray &obj);
+    explicit JsonObject(JsonArray &&obj);
 
     void operator=(const JsonObject &obj);
     void operator=(JsonObject &&obj);
@@ -45,6 +46,7 @@ public:
 public:
     JsonObject operator[](const std::string &key);
 
+    bool isEmpty() const;
     bool isObject() const;
     bool isArray() const;
     bool isInt() const;
@@ -59,10 +61,25 @@ public:
 
     JsonArray toArray() const;
 
+    //move
     JsonArray transferToArray();
+
+    void insert(const std::string &key, int val);
+    void insert(const std::string &key, double val);
+    void insert(const std::string &key, bool val);
+    void insert(const std::string &key, const std::string &val);
+    
+    void insert(const std::string &key, const JsonArray &val);
+    void insert(const std::string &key, const JsonObject &val);
+
+    cJSON *take();
 
 private:
     void clean();
+    void initOnNull();
+    cJSON *getInsertNode(const std::vector<std::string> &paths);
+
+    static std::vector<std::string> parseKey(const std::string &key);
 
 private:
     cJSON *json_;
@@ -72,17 +89,22 @@ private:
 class JsonArray {
 public:
     JsonArray();
+    JsonArray(const std::string &array);
 
-    JsonArray(cJSON *json);
+    explicit JsonArray(cJSON *json);
 
 public:
     std::string toJson() const;
 
-    int getSize();
+    int getSize() const;
 
     JsonObject operator[](int);
 
     JsonObject toObject() const;
+
+    void insert(const std::string &key, const JsonObject &item);
+
+    //move
     JsonObject transferToObject();
 private:
     cJSON *json_;

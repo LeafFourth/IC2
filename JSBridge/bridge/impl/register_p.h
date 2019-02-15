@@ -383,5 +383,23 @@ JSMethodCall *JSMakeCall(R(*f)(T1...), T2&& ...args)
 }
 
 
+template <class ...Types>
+void NativeInvokehelper(JsonObject &json, int index, Types&& ...args)
+{
+    json.insert("argNum", index);
+}
+
+template <class T, class ...Types>
+void NativeInvokehelper(JsonObject &json, int index, T &&arg, Types&& ...args)
+{
+    std::stringstream ss;
+    ss << "arg" << index;
+    std::string key = ss.str();
+
+    json.insert(key, arg);
+    NativeInvokehelper(json, index + 1, args...);
+}
+
+
 
 #endif //REGISTER_P_H
