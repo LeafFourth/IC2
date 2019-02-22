@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="utilities\string_util.cpp">
+      <Filter>utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="translator\translator.cpp">
+      <Filter>translator</Filter>
+    </ClCompile>
+    <ClCompile Include="translator\impl\translator_p.cpp">
+      <Filter>translator\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="json\JsonObject.cpp">
+      <Filter>json</Filter>
+    </ClCompile>
+    <ClCompile Include="json\impl\cJSON.c">
+      <Filter>json\impl</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="json">
+      <UniqueIdentifier>{a6e0a437-729c-4887-8c77-242356cc03a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utilities">
+      <UniqueIdentifier>{10424f8e-db1e-4f72-8e4d-79122c5ab419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="translator">
+      <UniqueIdentifier>{7adac94e-ed76-4526-a001-8d818a7d1a6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="translator\impl">
+      <UniqueIdentifier>{53af51db-abef-4954-a74a-4606fb43f102}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json\impl">
+      <UniqueIdentifier>{8eb23e53-fc7d-48f2-8a32-78888152d427}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="utilities\string_util.h">
+      <Filter>utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="translator\translator.h">
+      <Filter>translator</Filter>
+    </ClInclude>
+    <ClInclude Include="translator\impl\translator_p.h">
+      <Filter>translator\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="json\JsonObject.h">
+      <Filter>json</Filter>
+    </ClInclude>
+    <ClInclude Include="json\impl\cJSON.h">
+      <Filter>json\impl</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

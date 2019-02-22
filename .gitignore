@@ -9,3 +9,4 @@ test/Debug/
 *.opensdf
 *.suo
 GeneratedFiles/
+ipch/
