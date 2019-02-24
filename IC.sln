@@ -1,23 +1,42 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JSFunTranslator", "JSFunTranslator\JSFunTranslator.vcxproj", "{983DBCFC-CE4D-4FF6-8652-F2314E8D3C15}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{222F0F7A-CAC3-4A1B-9446-FB63ABFC8BCB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "devices", "examples\devices\devices.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
 		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{983DBCFC-CE4D-4FF6-8652-F2314E8D3C15}.Debug|Win32.ActiveCfg = Debug|Win32
 		{983DBCFC-CE4D-4FF6-8652-F2314E8D3C15}.Debug|Win32.Build.0 = Debug|Win32
+		{983DBCFC-CE4D-4FF6-8652-F2314E8D3C15}.Debug|x64.ActiveCfg = Debug|Win32
 		{983DBCFC-CE4D-4FF6-8652-F2314E8D3C15}.Release|Win32.ActiveCfg = Release|Win32
 		{983DBCFC-CE4D-4FF6-8652-F2314E8D3C15}.Release|Win32.Build.0 = Release|Win32
+		{983DBCFC-CE4D-4FF6-8652-F2314E8D3C15}.Release|x64.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|Win32.Build.0 = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x64.ActiveCfg = Debug|x64
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x64.Build.0 = Debug|x64
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|Win32.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|Win32.Build.0 = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.ActiveCfg = Release|x64
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B12702AD-ABFB-343A-A199-8E24837244A3} = {222F0F7A-CAC3-4A1B-9446-FB63ABFC8BCB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {873B4C27-85BD-4CB4-B899-97AF76B0B944}

@@ -268,7 +268,7 @@ void TestCallJS()
 }
 
 
-
+/**
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//TestJSCall();
@@ -279,6 +279,6 @@ int _tmain(int argc, _TCHAR* argv[])
 
     return 0;
 }
-
+*/
 
 

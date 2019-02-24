@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "impl/translator_p.h"
+#include "internal/translator_p.h"
 //
 //{
 //    "call":"BindF4",

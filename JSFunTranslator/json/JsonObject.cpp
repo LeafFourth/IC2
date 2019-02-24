@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "impl/cJSON.h"
+#include "internal/cJSON.h"
 
 JsonObject::JsonObject() : json_(nullptr)
 {

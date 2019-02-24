@@ -5,17 +5,14 @@
     <ClCompile Include="utilities\string_util.cpp">
       <Filter>utilities</Filter>
     </ClCompile>
-    <ClCompile Include="translator\translator.cpp">
-      <Filter>translator</Filter>
-    </ClCompile>
-    <ClCompile Include="translator\impl\translator_p.cpp">
-      <Filter>translator\impl</Filter>
-    </ClCompile>
     <ClCompile Include="json\JsonObject.cpp">
       <Filter>json</Filter>
     </ClCompile>
-    <ClCompile Include="json\impl\cJSON.c">
-      <Filter>json\impl</Filter>
+    <ClCompile Include="json\internal\cJSON.c">
+      <Filter>json\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="translator\internal\translator_p.cpp">
+      <Filter>translator\internal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -28,10 +25,10 @@
     <Filter Include="translator">
       <UniqueIdentifier>{7adac94e-ed76-4526-a001-8d818a7d1a6b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="translator\impl">
+    <Filter Include="translator\internal">
       <UniqueIdentifier>{53af51db-abef-4954-a74a-4606fb43f102}</UniqueIdentifier>
     </Filter>
-    <Filter Include="json\impl">
+    <Filter Include="json\internal">
       <UniqueIdentifier>{8eb23e53-fc7d-48f2-8a32-78888152d427}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -42,14 +39,14 @@
     <ClInclude Include="translator\translator.h">
       <Filter>translator</Filter>
     </ClInclude>
-    <ClInclude Include="translator\impl\translator_p.h">
-      <Filter>translator\impl</Filter>
-    </ClInclude>
     <ClInclude Include="json\JsonObject.h">
       <Filter>json</Filter>
     </ClInclude>
-    <ClInclude Include="json\impl\cJSON.h">
-      <Filter>json\impl</Filter>
+    <ClInclude Include="json\internal\cJSON.h">
+      <Filter>json\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="translator\internal\translator_p.h">
+      <Filter>translator\internal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
