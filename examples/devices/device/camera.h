@@ -13,7 +13,7 @@
 #include <QtGui/QImage>
 #include <QtWidgets/QLabel>
 
-#include "common/log.h"
+#include "common/log/log.h"
 
 #include "device/DeviceDetect.h"
 

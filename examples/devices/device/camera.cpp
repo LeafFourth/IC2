@@ -2,7 +2,7 @@
 
 #include <QtCore/QThread>
 
-#include "common/log.h"
+#include "common/log/log.h"
 
 static void *CameraImage2RGB24(const uchar *data, int len, const GUID &format);
 
