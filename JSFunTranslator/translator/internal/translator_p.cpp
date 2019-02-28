@@ -175,10 +175,10 @@ bool JSMetaCall(JsCallMeta &meta)
     }
 
     std::vector<MethodArg*> args = MakeCallArgs(call->argsType(), meta.data_);
-    call->call(args);
+    bool ret = call->call(args);
     ReleaseCallArgs(args);
 
-    return true;
+    return ret;
 }
 
 void JSStoreCall(const std::string &tag, JSMethodCall *call)

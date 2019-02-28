@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <vector>
 
-#include "json/JsonObject.h"
+#include "JSFunTranslator/json/JsonObject.h"
 
 struct MethodArg {
     MethodArg() : data(nullptr) {}
@@ -49,7 +49,7 @@ struct JsCallMeta {
 
 struct JSMethodCall {
     virtual std::string argsType() = 0;
-    virtual void call(std::vector<MethodArg*> &list) = 0;
+    virtual bool call(std::vector<MethodArg*> &list) = 0;
 };
 
 template <class T>
@@ -181,24 +181,26 @@ struct JSMethodCallImpl<R(T...)> : public JSMethodCall {
         return ret;
     }
 
-    void call(std::vector<MethodArg*> &list) override
+    bool call(std::vector<MethodArg*> &list) override
     {
-        expandCall(typename IndexPackGetter<IndicesPack<>, T...>::type(), list);
+        return expandCall(typename IndexPackGetter<IndicesPack<>, T...>::type(), list);
     }
 
 private:
     template <size_t ...index>
-    void expandCall(const IndicesPack<index...> &, std::vector<MethodArg*> &list)
+    bool expandCall(const IndicesPack<index...> &, std::vector<MethodArg*> &list)
     {
         if (!CheckArgs<T...>::Check(list)) {
 			std::cout << "args is not correct" << std::endl;
             assert(false);
-            return;
+            return false;
         }
 
         f_(
             ((typename std::remove_reference<T>::type&)*(typename std::remove_reference<T>::type*)(list[index]->data)
             )...);
+
+		return true;
     }
 
 private:
@@ -330,19 +332,19 @@ struct JSMethodCallImpl2 : public JSMethodCall  {
         return ret;
     }
 
-    void call(std::vector<MethodArg*> &list) override
+    bool call(std::vector<MethodArg*> &list) override
     {
-        expandCall(typename IndexPackGetter<IndicesPack<>, T...>::type(), list);
+        return expandCall(typename IndexPackGetter<IndicesPack<>, T...>::type(), list);
     }
 
 private:
     template <size_t ...index>
-    void expandCall(const IndicesPack<index...> &, std::vector<MethodArg*> &list)
+    bool expandCall(const IndicesPack<index...> &, std::vector<MethodArg*> &list)
     {
         if (!CheckArgs<T...>::Check(list)) {
             std::cout << "args is not correct" << std::endl;
             assert(false);
-            return;
+            return false;
         }
 		//TestTemplate(((typename std::remove_reference<T>::type&)*(typename std::remove_reference<T>::type*)(list[index]->data)
 		//	    )...);
@@ -350,6 +352,8 @@ private:
         f_(
             ((typename std::remove_reference<T>::type&)*(typename std::remove_reference<T>::type*)(list[index]->data)
             )...);
+
+		return true;
     }
 
 private:

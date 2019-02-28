@@ -28,7 +28,8 @@ void MainFrame::SetupoJSChannel()
     js_api->init();
 
     //ui.webView->setUrl(QString("https://www.baidu.com"));
-    ui.webView->setUrl(QString("E:/code/IC2/QtGuiApplication1/Resources/js/index.html"));
+
+    ui.webView->setUrl(QApplication::applicationDirPath().append("/Resources/js/index.html"));
 }
 
 void MainFrame::onTestButtonClick()

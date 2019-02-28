@@ -9,6 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{22
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "devices", "examples\devices\devices.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JSChannelTest", "examples\JSChannelTest\JSChannelTest.vcxproj", "{6A37C236-D2B2-4068-A0D8-4EBC32AB5260}"
+	ProjectSection(ProjectDependencies) = postProject
+		{983DBCFC-CE4D-4FF6-8652-F2314E8D3C15} = {983DBCFC-CE4D-4FF6-8652-F2314E8D3C15}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,12 +36,19 @@ Global
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|Win32.Build.0 = Release|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.ActiveCfg = Release|x64
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.Build.0 = Release|x64
+		{6A37C236-D2B2-4068-A0D8-4EBC32AB5260}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6A37C236-D2B2-4068-A0D8-4EBC32AB5260}.Debug|Win32.Build.0 = Debug|Win32
+		{6A37C236-D2B2-4068-A0D8-4EBC32AB5260}.Debug|x64.ActiveCfg = Debug|Win32
+		{6A37C236-D2B2-4068-A0D8-4EBC32AB5260}.Release|Win32.ActiveCfg = Release|Win32
+		{6A37C236-D2B2-4068-A0D8-4EBC32AB5260}.Release|Win32.Build.0 = Release|Win32
+		{6A37C236-D2B2-4068-A0D8-4EBC32AB5260}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B12702AD-ABFB-343A-A199-8E24837244A3} = {222F0F7A-CAC3-4A1B-9446-FB63ABFC8BCB}
+		{6A37C236-D2B2-4068-A0D8-4EBC32AB5260} = {222F0F7A-CAC3-4A1B-9446-FB63ABFC8BCB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {873B4C27-85BD-4CB4-B899-97AF76B0B944}

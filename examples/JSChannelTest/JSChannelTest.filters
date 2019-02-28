@@ -31,21 +31,6 @@
     <Filter Include="JSChannel">
       <UniqueIdentifier>{048840b9-f259-4421-9b1d-80e2b6c2aa68}</UniqueIdentifier>
     </Filter>
-    <Filter Include="bridge">
-      <UniqueIdentifier>{af715c7a-5006-4a2d-a637-1bc82b7b1d48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="bridge\impl">
-      <UniqueIdentifier>{82ea9554-d5d3-4ae8-96d5-2321874449bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="json">
-      <UniqueIdentifier>{e34618ca-8db8-4130-83ee-54f155a619b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="json\impl">
-      <UniqueIdentifier>{eb1998f3-b92c-438b-a67e-ffb4b8725041}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="utilities">
-      <UniqueIdentifier>{1f8334bb-a801-4969-bac2-c5e14535eaea}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -56,21 +41,6 @@
     </ClCompile>
     <ClCompile Include="JSChannel\JSChannel.cpp">
       <Filter>JSChannel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\JSBridge\bridge\register.cpp">
-      <Filter>bridge</Filter>
-    </ClCompile>
-    <ClCompile Include="..\JSBridge\bridge\impl\register_p.cpp">
-      <Filter>bridge\impl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\JSBridge\json\JsonObject.cpp">
-      <Filter>json</Filter>
-    </ClCompile>
-    <ClCompile Include="..\JSBridge\json\impl\cJSON.c">
-      <Filter>json\impl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\JSBridge\utilities\string_util.cpp">
-      <Filter>utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,22 +60,5 @@
     <QtRcc Include="MainFrame.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\JSBridge\bridge\register.h">
-      <Filter>bridge</Filter>
-    </ClInclude>
-    <ClInclude Include="..\JSBridge\bridge\impl\register_p.h">
-      <Filter>bridge\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\JSBridge\json\JsonObject.h">
-      <Filter>json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\JSBridge\json\impl\cJSON.h">
-      <Filter>json\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\JSBridge\utilities\string_util.h">
-      <Filter>utilities</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,11 +5,13 @@
   <script src="./qwebchannel.js"></script>
   <body>
     <p>hello</p>
+    <textarea cols=20 rows=10 id="NativeCall"></textarea>
     <button type="button" onclick="CallNative()">click me!</button>
     
     
     <script>
       window.onload = function() {
+        InitInput();
         console.log("init channel");
         new QWebChannel(qt.webChannelTransport, function(channel) {
                 window.channel_ = channel.objects.JSChannel;
@@ -22,14 +24,18 @@
         alert(json);
       }
       
-      function CallNative()
+      function InitInput()
       {
         var obj = {};
         obj.call = "TestBind";
         obj.data = { argNum:1, arg0:"hello, today!" };
-        var str = JSON.stringify(obj)
-        console.log(str);
-        window.channel_.callNative(str);
+        var str = JSON.stringify(obj);
+        document.getElementById("NativeCall").value = str;
+      }
+      
+      function CallNative()
+      {
+        window.channel_.callNative(document.getElementById("NativeCall").value);
       }
     </script>
   </body>

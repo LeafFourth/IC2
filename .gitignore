@@ -1,8 +1,5 @@
-app/Debug/
-build/
+/build/
 Debug/
-devices/GeneratedFiles/
-test/Debug/
 .vs/
 *.vcxproj.user
 *.sdf
