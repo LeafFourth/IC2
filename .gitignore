@@ -7,3 +7,5 @@ Debug/
 *.suo
 GeneratedFiles/
 ipch/
+/deps/packages/zlib-1.2.11/
+/deps/packages/openssl-0.9.8k/
