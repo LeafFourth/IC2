@@ -21,6 +21,49 @@ static void ErrorGrab()
 	printf("error\n");
 }
 
+static void PrintSpace(int number)
+{
+	if (number < 0) {
+		return;
+	}
+	for (int i = 0; i < number; ++i) {
+		printf(" ");
+	}
+	
+}
+
+static void PrintObjectHelper(AMFObject *obj, int indent)
+{
+	for (int i = 0; i < obj->o_num; ++i) {
+		PrintSpace(indent);
+		AMFObjectProperty &p = obj->o_props[i];
+		switch (p.p_type) {
+		case AMF_NUMBER:
+			printf("%s:%lf", p.p_name.av_val, p.p_vu.p_number);
+			break;
+		case AMF_BOOLEAN:
+			printf("%s:%d", p.p_name.av_val, (int)p.p_vu.p_number);
+			break;
+		case AMF_STRING:
+			printf("%s:%s", p.p_name.av_val, (int)p.p_vu.p_aval.av_val);
+			break;
+		case AMF_OBJECT:
+			printf("%s:\n", p.p_name.av_val);
+			PrintObjectHelper(&p.p_vu.p_object, indent + 2);
+			break;
+		}
+		printf("\n");
+	}
+}
+
+static void PrintObject(AMFObject *obj)
+{
+	printf("\n");
+	PrintObjectHelper(obj, 0);
+}
+
+
+
 int main()
 {
 	RTMP_PROTOCOL_RTMP;
@@ -83,13 +126,20 @@ int main()
 	int retSize = 0;
 
 	RTMPPacket pak;
-	RTMPPacket pak2;
-
 	memset((void*)&pak, 0, sizeof(pak));
-	memset((void*)&pak2, 0, sizeof(pak2));
-
-	RTMP_ReadPacket(&rtmp, &pak);
-	RTMP_ReadPacket(&rtmp, &pak2);
+	while (RTMP_ReadPacket(&rtmp, &pak)) {
+		switch (pak.m_packetType) {
+		case 18: {
+			AMFObject obj;
+			memset((void*)&obj, 0, sizeof(obj));
+			AMF_Decode(&obj, pak.m_body, pak.m_nBodySize, FALSE);
+			PrintObject(&obj);
+			int debug = 0;
+		}
+			
+		}
+		RTMPPacket_Free(&pak);
+	}
 
     std::cout << "Hello World!\n"; 
 
