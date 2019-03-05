@@ -30,6 +30,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source.def" />
+    <None Include="librtmp.def" />
   </ItemGroup>
 </Project>
