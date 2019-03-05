@@ -50,3 +50,43 @@ EXPORTS
   RTMP_Read=RTMP_Read
   RTMP_Write=RTMP_Write
   RTMP_HashSWF=RTMP_HashSWF
+  AMF_EncodeString
+  AMF_EncodeNumber
+  AMF_EncodeInt16
+  AMF_EncodeInt24
+  AMF_EncodeInt32
+  AMF_EncodeBoolean
+  AMF_EncodeNamedString
+  AMF_EncodeNamedNumber
+  AMF_EncodeNamedBoolean
+  AMF_DecodeInt16
+  AMF_DecodeInt24
+  AMF_DecodeInt32
+  AMF_DecodeString
+  AMF_DecodeLongString
+  AMF_DecodeBoolean
+  AMF_DecodeNumber
+  AMF_Encode
+  AMF_Decode
+  AMF_DecodeArray
+  AMF3_Decode
+  AMF_Dump
+  AMF_Reset
+  AMF_AddProp
+  AMF_CountProp
+  AMF_GetProp
+  AMFProp_GetType
+  AMFProp_GetName
+  AMFProp_SetName
+  AMFProp_GetNumber
+  AMFProp_GetBoolean
+  AMFProp_GetString
+  AMFProp_GetObject
+  AMFProp_IsValid
+  AMFProp_Encode
+  AMF3Prop_Decode
+  AMFProp_Decode
+  AMFProp_Dump
+  AMFProp_Reset
+  AMF3CD_AddProp
+  AMF3CD_GetProp
