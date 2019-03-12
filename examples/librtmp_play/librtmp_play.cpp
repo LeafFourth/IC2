@@ -1,5 +1,6 @@
-﻿// example.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
+﻿// librtmp_play.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
+
 #include <stdio.h>
 #include <iostream>
 
@@ -29,7 +30,7 @@ static void PrintSpace(int number)
 	for (int i = 0; i < number; ++i) {
 		printf(" ");
 	}
-	
+
 }
 
 static void PrintObjectHelper(AMFObject *obj, int indent)
@@ -62,43 +63,7 @@ static void PrintObject(AMFObject *obj)
 	PrintObjectHelper(obj, 0);
 }
 
-static void testPush(RTMP *r)
-{
-	RTMPPacket packet;
-	memset((void*)&packet, 0, sizeof(packet));
 
-	char pbuf[256], *pend = pbuf + sizeof(pbuf);
-	char *enc;
-
-	packet.m_nChannel = 0x010;	/* video channel */
-	packet.m_headerType = RTMP_PACKET_SIZE_LARGE;
-	packet.m_packetType = 18;	/* invoke */
-	packet.m_body = pbuf + RTMP_MAX_HEADER_SIZE;
-
-	enc = packet.m_body;
-	char messageTypeO[] = "custom";
-	AVal messageType = AVC(messageTypeO);
-	enc = AMF_EncodeString(enc, pend, &messageType);
-	*enc++ = AMF_NULL;
-	char messageO[] = "hello, world";
-	AVal message = AVC(messageO);
-	enc = AMF_EncodeString(enc, pend, &message);
-
-	packet.m_nBodySize = enc - packet.m_body;
-
-	AMFObject obj;
-	AMF_Decode(&obj, packet.m_body, packet.m_nBodySize, FALSE);
-	PrintObject(&obj);
-	AMF_Reset(&obj);
-
-
-	for (;;) {
-		RTMP_SendPacket(r, &packet, FALSE);
-		std::cout << "write" << std::endl;
-		::Sleep(1000);
-	}
-
-}
 
 int main()
 {
@@ -156,31 +121,30 @@ int main()
 	RTMP_Init(&rtmp);
 
 	DO_CHECK_ERROR(RTMP_SetupURL(&rtmp, (char*)"rtmp://127.0.0.1:8033/live/test"));
-	RTMP_EnableWrite(&rtmp);
 	//DO_CHECK_ERROR(RTMP_SetupURL(&rtmp, (char*)"rtmp://live.hkstv.hk.lxdns.com/live/hks1"));
 	DO_CHECK_ERROR(RTMP_Connect(&rtmp, nullptr));
 	DO_CHECK_ERROR(RTMP_ConnectStream(&rtmp, 0));
 	int retSize = 0;
 
-	//RTMPPacket pak;
-	//memset((void*)&pak, 0, sizeof(pak));
-	//while (RTMP_ReadPacket(&rtmp, &pak)) {
-	//	switch (pak.m_packetType) {
-	//	case 18: {
-	//		AMFObject obj;
-	//		memset((void*)&obj, 0, sizeof(obj));
-	//		AMF_Decode(&obj, pak.m_body, pak.m_nBodySize, FALSE);
-	//		PrintObject(&obj);
-	//      AMF_Reset(&obj);
-	//		int debug = 0;
-	//	}
-	//		
-	//	}
-	//	RTMPPacket_Free(&pak);
-	//}
+	RTMPPacket pak;
+	memset((void*)&pak, 0, sizeof(pak));
+	while (RTMP_ReadPacket(&rtmp, &pak)) {
+		RTMP_ClientPacket(&rtmp, &pak);
+		switch (pak.m_packetType) {
+		case 18: {
+			AMFObject obj;
+			memset((void*)&obj, 0, sizeof(obj));
+			AMF_Decode(&obj, pak.m_body, pak.m_nBodySize, FALSE);
+			PrintObject(&obj);
+			AMF_Reset(&obj);
+			int debug = 0;
+		}
 
-	testPush(&rtmp);
-    std::cout << "Hello World!\n"; 
+		}
+		RTMPPacket_Free(&pak);
+	}
+
+	std::cout << "Hello World!\n";
 
 	getchar();
 }
