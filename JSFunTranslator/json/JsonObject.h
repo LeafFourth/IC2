@@ -92,8 +92,14 @@ public:
     JsonArray(const std::string &array);
 
     explicit JsonArray(cJSON *json);
+    explicit JsonArray(const JsonArray& obj);
+    JsonArray(JsonArray&& obj);
+    ~JsonArray();
 
 public:
+    JsonArray& operator=(const JsonArray& obj);
+    JsonArray &operator=(JsonArray&& obj);
+
     std::string toJson() const;
 
     int getSize() const;
@@ -106,6 +112,10 @@ public:
 
     //move
     JsonObject transferToObject();
+
+private:
+    void clean();
+
 private:
     cJSON *json_;
 };
