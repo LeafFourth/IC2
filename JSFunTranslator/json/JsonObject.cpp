@@ -424,7 +424,7 @@ std::vector<std::string> JsonObject::parseKey(const std::string &key)
     const char c = '.';
     size_t off = 0;
     size_t pos = 0;
-    //²»¼ÓÖµÑéÖ¤(Èç´æÔÚÁ¬ÐøµÄ. »òÕß¿ªÊ¼¾ÍÊÇÒ»¸ö.)
+    //ä¸åŠ å€¼éªŒè¯(å¦‚å­˜åœ¨è¿žç»­çš„. æˆ–è€…å¼€å§‹å°±æ˜¯ä¸€ä¸ª.)
     while (std::string::npos != (pos = key.find(c, off))) {
         strs.push_back(key.substr(off, pos - off));
         off = pos + 1;
@@ -455,6 +455,43 @@ JsonArray::JsonArray(const std::string &array)
 JsonArray::JsonArray(cJSON *json)
 {
     json_ = json;
+}
+
+JsonArray::JsonArray(const JsonArray& obj)
+{
+    *this = obj;
+}
+
+JsonArray::JsonArray(JsonArray&& obj)
+{
+    json_ = obj.json_;
+
+    obj.json_ = nullptr;
+}
+
+JsonArray::~JsonArray()
+{
+    clean();
+}
+JsonArray& JsonArray::operator=(const JsonArray& obj)
+{
+    clean();
+
+    if (obj.json_) {
+        this->json_ = cJSON_Duplicate(obj.json_, (cJSON_bool)true);
+    }
+
+    return *this;
+}
+
+
+JsonArray& JsonArray::operator=(JsonArray&& obj)
+{
+    clean();
+    json_ = obj.json_;
+    obj.json_ = nullptr;
+
+    return *this;
 }
 
 std::string JsonArray::toJson() const
@@ -532,4 +569,12 @@ JsonObject JsonArray::transferToObject()
     json_ = nullptr;
 
     return JsonObject(mid);
+}
+
+void JsonArray::clean()
+{
+    if (json_) {
+        cJSON_Delete(json_);
+        json_ = nullptr;
+    }
 }
