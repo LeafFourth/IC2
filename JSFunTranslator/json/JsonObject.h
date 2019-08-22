@@ -34,7 +34,7 @@ public:
     JsonObject(JsonObject &&obj);
 
 
-    explicit JsonObject(const JsonArray &obj);
+    JsonObject(const JsonArray &obj);
     explicit JsonObject(JsonArray &&obj);
 
     void operator=(const JsonObject &obj);
@@ -92,7 +92,7 @@ public:
     JsonArray(const std::string &array);
 
     explicit JsonArray(cJSON *json);
-    explicit JsonArray(const JsonArray& obj);
+    JsonArray(const JsonArray& obj);
     JsonArray(JsonArray&& obj);
     ~JsonArray();
 
